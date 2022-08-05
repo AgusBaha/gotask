@@ -11,11 +11,17 @@ import (
 var TaskModel = models.NewTaskModel()
 
 func Index(response http.ResponseWriter, request *http.Request) {
+	tasks, _ := TaskModel.FindAll()
+
+	data := map[string]interface{}{
+		"Tasks": tasks,
+	}
+
 	temp, err := template.ParseFiles("views/task/task.html")
 	if err != nil {
 		panic(err)
 	}
-	temp.Execute(response, nil)
+	temp.Execute(response, data)
 }
 
 func Add(response http.ResponseWriter, request *http.Request) {

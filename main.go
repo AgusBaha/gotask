@@ -9,11 +9,11 @@ import (
 func main() {
 	// Route Handler
 	http.HandleFunc("/", taskcontroller.Index)
-	http.HandleFunc("/taks", taskcontroller.Index)
-	http.HandleFunc("/taks/index", taskcontroller.Index)
-	http.HandleFunc("/task/add", taskcontroller.Add)
-	http.HandleFunc("/task/edit", taskcontroller.Edit)
-	http.HandleFunc("/task/delete", taskcontroller.Delete)
+	http.HandleFunc("/tasks", taskcontroller.Index)
+	http.HandleFunc("/tasks/index", taskcontroller.Index)
+	http.HandleFunc("/tasks/add", taskcontroller.Add)
+	http.HandleFunc("/tasks/edit", taskcontroller.Edit)
+	http.HandleFunc("/tasks/delete", taskcontroller.Delete)
 
 	// Start server
 	http.ListenAndServe(":9000", nil)
