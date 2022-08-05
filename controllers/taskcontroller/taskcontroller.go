@@ -1,12 +1,16 @@
 package taskcontroller
 
 import (
-	"fmt"
+	"html/template"
 	"net/http"
 )
 
 func Index(response http.ResponseWriter, request *http.Request) {
-	fmt.Println("Its Working")
+	temp, err := template.ParseFiles("views/task/task.html")
+	if err != nil {
+		panic(err)
+	}
+	temp.Execute(response, nil)
 }
 
 func Add(response http.ResponseWriter, request *http.Request) {
