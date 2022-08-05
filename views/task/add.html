@@ -27,6 +27,13 @@
     <div class="container mt-5 shadow-lg p-3 mb-5 bg-white rounded ">
         <h3>Data Task Manager</h3>
         <a href="/task" class="btn btn-primary btn-sm"><i class="fa-solid fa-circle-info"></i> View Task</a>
+
+        {{ if .Message }}
+        <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+            {{ .Message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {{ end }}
         <!-- <hr /> -->
         <div class="card mt-2">
             <div class="card-body">
@@ -45,8 +52,8 @@
                             <input type="text" class="form-control" name="Assigment" placeholder="Assigment"
                                 aria-label="Assigment">
 
-                            <label for="Assigment" class="form-label mt-3">Status</label>
-                            <select class="form-select" aria-label="Default select example">
+                            <label for="Statis" class="form-label mt-3">Status</label>
+                            <select class="form-select" name="Status" aria-label="Default select example">
                                 <option selected>Open this select menu status task</option>
                                 <option value="1">Done</option>
                                 <option value="2">not finished</option>
