@@ -3,6 +3,7 @@ package models
 import (
 	"database/sql"
 	"fmt"
+	"time"
 
 	"github.com/agusbaha/go-task/config"
 	"github.com/agusbaha/go-task/entities"
@@ -34,7 +35,7 @@ func (t *TaskModel) FindAll() ([]entities.Task, error) {
 	var tasks []entities.Task
 	for rows.Next() {
 		var task entities.Task
-		rows.Scan(&task.Id, &task.TaskDetail, &task.Deadline, &task.Assigment, &task.Status)
+		rows.Scan(&task.Id, &task.TaskDetail, &task.Assigment, &task.Deadline, &task.Status)
 
 		// cara merubah angka di database buat jenis_kelamin/status ke abjad
 		// if task.Status == "1" {
@@ -42,6 +43,12 @@ func (t *TaskModel) FindAll() ([]entities.Task, error) {
 		// } else {
 		// 	task.Status = "Selesai"
 		// }
+
+		// Format date status
+		// 2005-01-01 yyyy-mm-dd
+		Deadline, _ := time.Parse("2006-01-02", task.Deadline)
+		// 01-01-2005 dd-mm-yyyy
+		task.Deadline = Deadline.Format("02-01-2006")
 
 		tasks = append(tasks, task)
 	}
