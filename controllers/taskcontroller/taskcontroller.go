@@ -5,9 +5,11 @@ import (
 	"net/http"
 
 	"github.com/agusbaha/go-task/entities"
+	"github.com/agusbaha/go-task/libraries"
 	"github.com/agusbaha/go-task/models"
 )
 
+var validation = libraries.NewValidation()
 var TaskModel = models.NewTaskModel()
 
 func Index(response http.ResponseWriter, request *http.Request) {
@@ -37,15 +39,21 @@ func Add(response http.ResponseWriter, request *http.Request) {
 		request.ParseForm()
 
 		var task entities.Task
-		task.TaskDetail = request.Form.Get("DetailTask")
+		task.TaskDetail = request.Form.Get("TaskDetail")
 		task.Deadline = request.Form.Get("Deadline")
 		task.Assigment = request.Form.Get("Assigment")
 		task.Status = request.Form.Get("Status")
 
-		// fmt.Println(task)
-		TaskModel.Create(task)
-		data := map[string]interface{}{
-			"Message": "Data Berhasil Ditambahkan",
+		var data = make(map[string]interface{})
+
+		vErrors := validation.Struct(task)
+
+		if vErrors != nil {
+			data["task"] = task
+			data["validation"] = vErrors
+		} else {
+			data["Message"] = "Data task berhasil ditambahkan"
+			TaskModel.Create(task)
 		}
 
 		temp, _ := template.ParseFiles("views/task/add.html")

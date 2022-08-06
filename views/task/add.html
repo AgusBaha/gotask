@@ -40,24 +40,38 @@
                 <form action="/tasks/add" method="post">
                     <div class="row">
                         <div class="col">
-                            <label for="DetailTask" class="form-label">Detail Task</label>
-                            <input type="text" class="form-control" name="DetailTask" id="DetailTask"
-                                placeholder="Detail Task" aria-label="DetailTask" autofocus>
+                            <label for="TaskDetail" class="form-label">Detail Task</label>
+                            <input type="text" class="form-control {{ if .validation.TaskDetail }} is-invalid {{ end }}" value="{{ .task.TaskDetail }}" name="TaskDetail" id="TaskDetail"
+                                placeholder="Detail Task" aria-label="TaskDetail" autofocus>
+                                <div class="invalid-feedback">
+                                    {{ .validation.TaskDetail }}
+                                </div>
+
 
                             <label for="Deadline" class="form-label mt-3">Deadline</label>
-                            <input type="date" class="form-control" name="Deadline" id="Deadline">
+                            <input type="date" class="form-control {{ if .validation.Deadline }} is-invalid {{ end }}" value="{{ .task.Deadline }}" name="Deadline" id="Deadline">
+                            <div class="invalid-feedback">
+                                {{ .validation.Deadline }}
+                            </div>
                         </div>
                         <div class="col">
                             <label for="Assigment" class="form-label">Assigment</label>
-                            <input type="text" class="form-control" name="Assigment" placeholder="Assigment"
+                            <input type="text" class="form-control {{ if .validation.Assigment }} is-invalid {{ end }}" value="{{ .task.Assigment }}" name="Assigment" placeholder="Assigment"
                                 aria-label="Assigment">
+                                <div class="invalid-feedback">
+                                    {{ .validation.Assigment }}
+                                </div>
 
-                            <label for="Statis" class="form-label mt-3">Status</label>
-                            <select class="form-select" name="Status" aria-label="Default select example">
-                                <option selected>Open this select menu status task</option>
-                                <option value="1">not finished</option>
-                                <option value="2">Done</option>
+                            <label for="Status" class="form-label mt-3">Status</label>
+                            <select class="form-select {{ if .validation.Status }} is-invalid {{ end }}" name="Status" aria-label="Default select example">
+                                <option selected value="1">Open this select menu Status task</option>
+                                <option {{ if eq .task.Status `1` }} selected {{ end }} value="1">not finished</option>
+                                <option {{ if eq .task.Status `2` }} selected {{ end }} value="2">Done</option>
                             </select>
+                            <div class="invalid-feedback">
+                                {{ .validation.Status }}
+                            </div>
+
                         </div>
                     </div>
                     <div class="d-grid gap-2">
