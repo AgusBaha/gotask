@@ -62,7 +62,7 @@
 
   <body>
     <div class="container mt-5 shadow-lg p-3 mb-5 bg-white rounded">
-      <h3>Data Task Manager</h3>
+      <h3>View To Do List</h3>
       <a href="/tasks/add" class="btn btn-primary btn-sm"
         ><i class="far fa-plus"></i> Add Task</a
       >
@@ -85,9 +85,11 @@
             <td>{{ .Deadline }}</td>
             <td class="text-center">
               {{ if eq .Status "1" }}
-              <span class="badge text-bg-primary">Belum Selesai</span>
+              <span class="badge text-bg-primary">On Progress</span>
               {{ else if eq .Status "2" }}
-              <span class="badge text-bg-success">Selesai</span>
+              <span class="badge text-bg-danger">Not Finished</span>
+              {{ else if eq .Status "3" }}
+              <span class="badge text-bg-success">Done</span>
               {{ end }}
             </td>
             <td>

@@ -25,7 +25,7 @@
 
 <body>
     <div class="container mt-5 shadow-lg p-3 mb-5 bg-white rounded ">
-        <h3>Data Task Manager</h3>
+        <h3>Create To Do List</h3>
         <a href="/task" class="btn btn-primary btn-sm"><i class="fa-solid fa-circle-info"></i> View Task</a>
 
         {{ if .Message }}
@@ -65,8 +65,9 @@
                             <label for="Status" class="form-label mt-3">Status</label>
                             <select class="form-select {{ if .validation.Status }} is-invalid {{ end }}" name="Status" aria-label="Default select example">
                                 <option selected value="1">Open this select menu Status task</option>
-                                <option {{ if eq .task.Status `1` }} selected {{ end }} value="1">not finished</option>
-                                <option {{ if eq .task.Status `2` }} selected {{ end }} value="2">Done</option>
+                                <option {{ if eq .task.Status `1` }} selected {{ end }} value="1">On Progress</option>
+                                <option {{ if eq .task.Status `2` }} selected {{ end }} value="2">Not Finished</option>
+                                <option {{ if eq .task.Status `3` }} selected {{ end }} value="3">Done</option>
                             </select>
                             <div class="invalid-feedback">
                                 {{ .validation.Status }}
