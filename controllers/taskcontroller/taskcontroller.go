@@ -3,6 +3,7 @@ package taskcontroller
 import (
 	"html/template"
 	"net/http"
+	"strconv"
 
 	"github.com/agusbaha/go-task/entities"
 	"github.com/agusbaha/go-task/libraries"
@@ -67,5 +68,9 @@ func Edit(response http.ResponseWriter, request *http.Request) {
 }
 
 func Delete(response http.ResponseWriter, request *http.Request) {
+	queryString := request.URL.Query()
+	id, _ := strconv.ParseInt(queryString.Get("id"), 10, 64)
 
+	TaskModel.Delete(id)
+	http.Redirect(response, request, "/task", http.StatusSeeOther)
 }

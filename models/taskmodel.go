@@ -68,3 +68,7 @@ func (t *TaskModel) Create(task entities.Task) bool {
 
 	return lastInsertId > 0
 }
+
+func (t *TaskModel) Delete(id int64) {
+	t.conn.Exec("DELETE FROM task WHERE id = ?", id)
+}
