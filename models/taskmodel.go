@@ -13,6 +13,7 @@ type TaskModel struct {
 	conn *sql.DB
 }
 
+// index task
 func NewTaskModel() *TaskModel {
 	conn, err := config.DBConnection()
 
@@ -56,6 +57,7 @@ func (t *TaskModel) FindAll() ([]entities.Task, error) {
 	return tasks, nil
 }
 
+// Create a new task
 func (t *TaskModel) Create(task entities.Task) bool {
 	result, err := t.conn.Exec("INSERT INTO task (task_detail, deadline, assigment, status) VALUES (?, ?, ?, ?)", task.TaskDetail, task.Deadline, task.Assigment, task.Status)
 
@@ -67,4 +69,23 @@ func (t *TaskModel) Create(task entities.Task) bool {
 	lastInsertId, _ := result.LastInsertId()
 
 	return lastInsertId > 0
+}
+
+// Find a task by id
+func (t *TaskModel) Find(id int64, task *entities.Task) error {
+	return t.conn.QueryRow("SELECT * FROM task WHERE id = ?", id).Scan(&task.Id, &task.TaskDetail, &task.Assigment, &task.Deadline, &task.Status)
+}
+
+// Update a task by id
+func (t *TaskModel) Update(task entities.Task) error {
+	_, err := t.conn.Exec("UPDATE task SET task_detail = ?, deadline = ?, assigment = ?, status = ? WHERE id = ?", task.TaskDetail, task.Deadline, task.Assigment, task.Status, task.Id)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+func (t *TaskModel) Delete(id int64) {
+	t.conn.Exec("DELETE FROM task WHERE id = ?", id)
 }

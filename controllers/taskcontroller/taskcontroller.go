@@ -3,6 +3,7 @@ package taskcontroller
 import (
 	"html/template"
 	"net/http"
+	"strconv"
 
 	"github.com/agusbaha/go-task/entities"
 	"github.com/agusbaha/go-task/libraries"
@@ -63,9 +64,56 @@ func Add(response http.ResponseWriter, request *http.Request) {
 }
 
 func Edit(response http.ResponseWriter, request *http.Request) {
+	if request.Method == http.MethodGet {
+		// request By Id jika method get
+		queryString := request.URL.Query()
+		id, _ := strconv.ParseInt(queryString.Get("id"), 10, 64)
 
+		var task entities.Task
+		TaskModel.Find(id, &task)
+
+		data := map[string]interface{}{
+			"task": task,
+		}
+		// fmt.Println(data)
+		// request view jika method get
+		temp, err := template.ParseFiles("views/task/edit.html")
+		if err != nil {
+			panic(err)
+		}
+		temp.Execute(response, data)
+	} else if request.Method == http.MethodPost {
+		// mengirim data ke database jika method post
+		request.ParseForm()
+
+		var task entities.Task
+		task.Id, _ = strconv.ParseInt(request.Form.Get("id"), 10, 64)
+		task.TaskDetail = request.Form.Get("TaskDetail")
+		task.Deadline = request.Form.Get("Deadline")
+		task.Assigment = request.Form.Get("Assigment")
+		task.Status = request.Form.Get("Status")
+
+		var data = make(map[string]interface{})
+
+		vErrors := validation.Struct(task)
+
+		if vErrors != nil {
+			data["task"] = task
+			data["validation"] = vErrors
+		} else {
+			data["Message"] = "Data task berhasil perbarui"
+			TaskModel.Update(task)
+		}
+
+		temp, _ := template.ParseFiles("views/task/edit.html")
+		temp.Execute(response, data)
+	}
 }
 
 func Delete(response http.ResponseWriter, request *http.Request) {
+	queryString := request.URL.Query()
+	id, _ := strconv.ParseInt(queryString.Get("id"), 10, 64)
 
+	TaskModel.Delete(id)
+	http.Redirect(response, request, "/task", http.StatusSeeOther)
 }

@@ -25,7 +25,7 @@
 
 <body>
     <div class="container mt-5 shadow-lg p-3 mb-5 bg-white rounded ">
-        <h3>Create To Do List</h3>
+        <h3>Edit To Do List</h3>
         <a href="/task" class="btn btn-primary btn-sm"><i class="fa-solid fa-circle-info"></i> View Task</a>
 
         {{ if .Message }}
@@ -37,7 +37,7 @@
         <!-- <hr /> -->
         <div class="card mt-2">
             <div class="card-body">
-                <form action="/tasks/add" method="post">
+                <form action="/tasks/edit" method="post">
                     <div class="row">
                         <div class="col">
                             <label for="TaskDetail" class="form-label">Detail Task</label>
@@ -76,6 +76,7 @@
                         </div>
                     </div>
                     <div class="d-grid gap-2">
+                        <input type="hidden" name="id" value="{{ .task.Id }}">
                         <button class="btn btn-primary mt-3" type="submit">Save</button>
                     </div>
                 </form>
